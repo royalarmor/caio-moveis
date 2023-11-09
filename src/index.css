@@ -1,0 +1,119 @@
+@import 'https://fonts.googleapis.com/css2?family=Roboto&family=Ubuntu&family=Montserrat&display=swap';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .links {
+    @apply px-8 
+      py-2
+      border 
+      block
+      hover:border-[#242424]
+      border-stone-800
+      rounded-full
+      uppercase
+      text-[12.5px]
+      tracking-widest
+      text-gray-100
+      transition-all
+      ease-in-out 
+      delay-75
+      hover:scale-105
+      hover:hover:text-[#fafafa] 
+      hover:border-[#fafafa]/40 
+      duration-300
+      hover:-translate-y-0
+      p-0
+      max-h-10
+      my-auto;
+  }
+  .navbar-button-mobile {
+    @apply uppercase
+      text-neutral-100
+      cursor-pointer
+      text-sm
+      text-start
+      tracking-widest
+      hover:text-[#fafafa]/40;
+  }
+  .sign-text-inputs {
+    @apply transition
+    duration-300
+    bg-gray-100
+    text-gray-900 
+    text-[17px] 
+    w-full 
+    placeholder-gray-400
+    rounded-[30px]
+    h-[45px]
+    px-5
+    shadow-md 
+    focus:outline-none;
+  }
+  .PlaygroundEditorTheme__indent {
+    @apply xxs:!ps-0
+  }
+  .tooltip-right-color-controller {
+    @apply
+    dark:before:text-gray-300 
+    before:text-gray-900 
+    before:bg-[#ffffff] 
+    dark:before:bg-[#0f1011] 
+      before:border
+    before:border-gray-900 
+    dark:before:border-gray-500 
+      after:!border-t-transparent 
+    dark:after:border-r-gray-500
+      after:border-b-transparent 
+      after:border-l-transparent
+  }
+  .tooltip-left-color-controller {
+    @apply
+    dark:before:text-gray-300 
+    before:text-gray-900 
+    before:bg-[#ffffff] 
+    dark:before:bg-[#0f1011] 
+      before:border
+    before:border-gray-900 
+    dark:before:border-gray-500 
+      after:!border-t-transparent
+    dark:after:!border-l-gray-400
+      after:border-b-transparent 
+      after:border-r-transparent
+  }
+  .active-item {
+    @apply
+    dark:!bg-red-700
+    !bg-green-600
+  }
+}
+
+* {
+  font-family: "Ubuntu";
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: "Cut-Deep";
+  src: url("./assets/fonts/Cut-Deep.otf");
+}
+
+html {
+  /* overflow: hidden !important; */
+  background-color: #f8f8f8 !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance: textfield; /* Firefox */
+}
