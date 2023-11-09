@@ -346,6 +346,7 @@ export default function App() {
                     key={draw._id}
                   >
                     <div 
+                      className="!relative"
                       onMouseEnter={() => setHover(index)} 
                       onMouseLeave={() => setHover(null)}
                     >
@@ -353,7 +354,7 @@ export default function App() {
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
                         transition={{ duration: 0.3  }}
-                        className={`cursor-pointer !absolute right-[68px] !w-8 bg-[#ffffff] dark:bg-[#181818] text-gray-900 dark:text-gray-300 rounded-bl-lg rounded-tr-lg h-8 hidden ${hover === index && '!inline'}`}
+                        className={`cursor-pointer !absolute right-0 !w-8 bg-[#ffffff] dark:bg-[#181818] text-gray-900 dark:text-gray-300 rounded-bl-lg rounded-tr-lg h-8 hidden ${hover === index && '!inline'}`}
                       >
                         <div className="flex flex-row space-x-2 px-2 pt-1 justify-between">  
                           <div className="dropdown dropdown-left">
@@ -402,7 +403,7 @@ export default function App() {
                       <img
                         className="max-w-sm xxs:w-[20rem] w-full object-cover max-h-80 h-56 mb-0 pb-0"
                         src={draw.image}
-                        alt="Sunset in the mountains"
+                        alt="Card image"
                       />
                     </div>
                     <div className="px-6 py-5">

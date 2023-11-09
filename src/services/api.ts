@@ -16,8 +16,6 @@ api.interceptors.response.use(
     error => {
         const errorStatus = error?.response?.status;
 
-        console.log(error);
-
         if ((errorStatus >= 500 && errorStatus <= 599)){
             console.log(error);
             //(500 - 599) = Server error responses
