@@ -114,7 +114,7 @@ export default function App() {
         image
       });
 
-      await fetchDraws();
+      fetchDraws();
       toastAlert({ icon: "success", title: message, timer: 2000 });
     } catch (err: any) {
       console.log(err);
@@ -149,11 +149,11 @@ export default function App() {
     setOpenEditModal(false);
   }
 
-  const donwloadImage = (srcLink: string) => {
+  const donwloadImage = (srcLink: string, cardId: string) => {
     const a = Object.assign(document.createElement("a"), { 
       href: srcLink, 
       style:"display:none", 
-      download: "image" 
+      download: `image_${cardId}`
     });
     
     document.body.appendChild(a);
@@ -168,7 +168,7 @@ export default function App() {
   );
 
   return (
-    <div className="overflow-hidden text-black">
+    <div className="text-black">
       <Modal
         open={openEditModal}
         setOpen={setOpenEditModal}
@@ -333,7 +333,7 @@ export default function App() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col space-y-10 justify-center items-center mt-10 overflow-auto overflow-y-scroll">
+        <div className="flex flex-col space-y-10 justify-center items-center mt-10">
           {(fields.length > 0 && !isFetching) ? (
             <>
               {fields.map((draw: any, index: number) => {
@@ -375,7 +375,7 @@ export default function App() {
                               <li className="text-xs uppercase tracking-widest">
                                 <a 
                                   className="hover:!bg-[#e6e6e6] dark:hover:!bg-[#222222]"
-                                  onClick={() => donwloadImage(draw.image)}
+                                  onClick={() => donwloadImage(draw.image, draw._id)}
                                 >
                                   <div className="flex flex-row space-x-2 !text-gray-900 dark:!text-gray-300">
                                     <span className="my-auto text-[11px] text-inherit">Baixar imagem</span>

@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-// const api = axios.create({ baseURL: ` http://localhost:3002/` });
+const api = axios.create({ baseURL: ` http://localhost:3002/` });
 
-const api = axios.create({ baseURL: `https://caio-moveis-backend.vercel.app/` });
+// const api = axios.create({ baseURL: `https://caio-moveis-backend.vercel.app/` });
 
 // api.interceptors.request.use(async config => {
 //     const token = JSON.parse(localStorage.getItem('@NOAP:SYSTEM') || "{}");
