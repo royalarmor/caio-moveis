@@ -56,7 +56,7 @@ export default function App() {
       } = await api.get(`/draws/${page}`, {
         params: {
           search: delayedSearch ? delayedSearch : '',
-          limit: 20
+          limit: 10
         }
       });
 
