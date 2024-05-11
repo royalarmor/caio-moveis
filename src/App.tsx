@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm, FieldValues, useFieldArray } from "react-hook-form";
 import { useQuery } from "react-query";
 
-import { BsThreeDotsVertical, BsFillFileEarmarkArrowDownFill, BsFillTrashFill } from "react-icons/bs";
+import { BsThreeDotsVertical, BsFillFileEarmarkArrowDownFill, BsFillTrashFill } from "react-icons/bs"; //icones
 import {
   MdKeyboardDoubleArrowRight,
   MdKeyboardDoubleArrowLeft,
@@ -333,14 +333,23 @@ export default function App() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col space-y-10 justify-center items-center mt-10">
-          {(fields.length > 0 && !isFetching) ? (
+        <div className=" grid grid-flow-row-dense 
+          2xl:grid-cols-4 2xl:grid-rows-3 
+          xl:grid-cols-3 xl:grid-rows-3 
+          lg:grid-cols-2 lg:grid-rows-2
+          md:grid-cols-1 md:grid-rows-1
+          sm:grid-cols-1 sm:grid-rows-1
+          space-y-10 
+          justify-items-center"
+        >
+          {(fields.length && !isFetching) ? (
             <>
               {fields.map((draw: any, index: number) => {
                 return (
+                  
                   <div 
                     className={`
-                      max-w-sm xxs:w-[20rem] overflow-hidden rounded-xl border border-gray-400
+                        2xl:w-[24rem] xl:w-[24rem] lg:w-[20rem] md:w-[24rem] sm:w-[24rem] overflow-hidden rounded-xl border border-gray-400
                       ${index === (fields.length - 1) && "!mb-20"}
                     `}
                     key={draw._id}
@@ -422,11 +431,11 @@ export default function App() {
               })}
             </>
           ) : isFetching && (
-            <div className="mt-5 flex flex-col space-y-5 justify-center items-center">
-              <p className="animate-pulse">Carregando...</p>
-              <span className="loading loading-spinner loading-lg"/>
-            </div>
-          )}
+              <div className="col-span-full grid justify-items-center">
+                <p className="animate-pulse">Carregando</p>
+                <span className="loading loading-spinner loading-lg"/>
+              </div>
+            )}
         </div>
       </div>
     </div>
