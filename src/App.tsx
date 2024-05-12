@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useForm, FieldValues, useFieldArray } from "react-hook-form";
 import { useQuery } from "react-query";
 
-import { BsThreeDotsVertical, BsFillFileEarmarkArrowDownFill, BsFillTrashFill } from "react-icons/bs"; //icones
+import { BsThreeDotsVertical, BsFillFileEarmarkArrowDownFill, BsFillTrashFill, BsFillGearFill } from "react-icons/bs"; //icones
 import {
   MdKeyboardDoubleArrowRight,
   MdKeyboardDoubleArrowLeft,
@@ -20,6 +20,15 @@ import { motion } from "framer-motion";
 
 import sawIcon from "./assets/icons/saw.png";
 
+type SelectedImageObjInfoType = {
+  type: string;
+  client: {
+    name:string,
+    address:string
+  }
+  image: string;
+};
+
 export default function App() {
   const [page, setPage] = useState(1);
   const [image, setImage] = useState('');
@@ -28,8 +37,10 @@ export default function App() {
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hover, setHover] = useState<number | null>(null);
   const [openEditModal, setOpenEditModal] = useState(false);
+  const [openFullScreenModal, setOpenFullScreenModal] = useState(false);
+  const [selectedImageObjInfo, setSelectedImageObjInfo] = useState<SelectedImageObjInfoType | null>(null);
 
-  const { handleSubmit, register, formState, control, reset } = useForm();
+  const { handleSubmit, register, formState, control, setValue, reset, } = useForm();
   const { errors } = formState;
 
   const { fields, replace, remove } = useFieldArray({
@@ -140,6 +151,15 @@ export default function App() {
     }
   };
 
+  const handleEditModal = (cardDataObj: SelectedImageObjInfoType) => {
+    reset({
+      type: cardDataObj.type,
+      clientName: cardDataObj.client.name,
+      clientAddress: cardDataObj.client.address
+    });
+    setOpenEditModal(true);
+  }
+
   const handleCloseModal = () => {
     reset({
       type: "",
@@ -148,6 +168,11 @@ export default function App() {
     });
     setOpenEditModal(false);
   }
+  
+  const handleCloseFullscreenModal = () => {
+    setSelectedImageObjInfo(null),
+    setOpenFullScreenModal(false);
+  };
 
   const donwloadImage = (srcLink: string, cardId: string) => {
     const a = Object.assign(document.createElement("a"), { 
@@ -234,6 +259,20 @@ export default function App() {
           </form>
         </div>
       </Modal>
+      <Modal
+        title={selectedImageObjInfo?.type}
+        open={openFullScreenModal}
+        setOpen={setOpenFullScreenModal}
+        options={{
+          onClose: handleCloseFullscreenModal,
+          modalWrapperClassName: "w-[70%] px-0",
+          titleWrapperClassName: "!px-6",
+        }}
+      >
+        <div className="px-6">
+          <img src={selectedImageObjInfo?.image} alt="" className="w-screen"/>
+        </div>
+      </Modal>
       <nav className="flex justify-between md:px-20 xxs:px-4 sm:px-4 py-5 items-center border border-transparent border-b-gray-900">
         <div className="flex flex-row space-x-3">
           <img
@@ -254,7 +293,7 @@ export default function App() {
           onClick={() => setOpenEditModal(true)}
         >
           <div className="flex flex-row space-x-3">
-            <p>novo desenho</p>
+            <p>novo projeto</p>
           </div>
         </button>
       </nav>
@@ -266,7 +305,7 @@ export default function App() {
               fontFamily: "Roboto",
             }}
           >
-            Desenhos
+            Projetos
           </p>
           <div className="mx-auto mt-5">
             <div className="relative flex items-center w-[24rem] xxs:w-[20rem] h-12 rounded-lg focus-within:shadow-lg overflow-hidden border border-gray-600">
@@ -365,7 +404,7 @@ export default function App() {
                         transition={{ duration: 0.3  }}
                         className={`cursor-pointer !absolute right-0 !w-8 bg-[#ffffff] dark:bg-[#181818] text-gray-900 dark:text-gray-300 rounded-bl-lg rounded-tr-lg h-8 hidden ${hover === index && '!inline'}`}
                       >
-                        <div className="flex flex-row space-x-2 px-2 pt-1 justify-between">  
+                        <div className="flex flex-row space-x-2 px-2 pt-1 justify-between" >  
                           <div className="dropdown dropdown-left">
                             <label 
                               tabIndex={0}
@@ -387,8 +426,23 @@ export default function App() {
                                   onClick={() => donwloadImage(draw.image, draw._id)}
                                 >
                                   <div className="flex flex-row space-x-2 !text-gray-900 dark:!text-gray-300">
-                                    <span className="my-auto text-[11px] text-inherit">Baixar imagem</span>
+                                    <span className="my-auto text-[11px] text-inherit">Baixar projeto</span>
                                     <BsFillFileEarmarkArrowDownFill size={22} className="mt-1"/>
+                                  </div>
+                                </a>
+                              </li>
+                              <li className="text-xs uppercase tracking-widest">
+                                <a 
+                                  className="hover:!bg-[#e6e6e6] dark:hover:!bg-[#222222]"
+                                  onClick={() => handleEditModal( {
+                                    type: draw.type,
+                                    client: draw.client,
+                                    image: draw.image,
+                                  } )}
+                                >
+                                  <div className="flex flex-row space-x-2 !text-gray-900 dark:!text-gray-300">
+                                    <span className="my-auto text-[11px] text-inherit">Editar projeto</span>
+                                    <BsFillGearFill size={22} className="mt-1"/>
                                   </div>
                                 </a>
                               </li>
@@ -399,9 +453,9 @@ export default function App() {
                                 >
                                   <div className="flex flex-row space-x-2 !text-gray-900 dark:!text-gray-300">
                                     <span className="my-auto text-[11px] text-inherit">
-                                      {loader ? "Excluindo..." : "Excluir"}
+                                      {loader ? "Excluindo..." : "Excluir projeto"}
                                     </span>
-                                    <BsFillTrashFill size={16} />
+                                    <BsFillTrashFill size={22} className="mt-1"/>
                                   </div>
                                 </a>
                               </li>
@@ -411,6 +465,14 @@ export default function App() {
                       </motion.div>
                       <img
                         className="max-w-sm xxs:w-[20rem] w-full object-cover max-h-80 h-56 mb-0 pb-0"
+                        onClick={ () => {      
+                          setOpenFullScreenModal(true)
+                          setSelectedImageObjInfo( {
+                            type: draw.type,
+                            client: draw.client,
+                            image: draw.image,
+                          } )
+                        } }
                         src={draw.image}
                         alt="Card image"
                       />
@@ -431,7 +493,7 @@ export default function App() {
               })}
             </>
           ) : isFetching && (
-              <div className="col-span-full grid justify-items-center">
+              <div className="col-span-full grid justify-items-center mt-12">
                 <p className="animate-pulse">Carregando</p>
                 <span className="loading loading-spinner loading-lg"/>
               </div>
